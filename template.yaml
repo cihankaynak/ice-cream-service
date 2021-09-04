@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  ice-cream-service
+
+  Sample SAM Template for ice-cream-service
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  GetIceCreamByIdFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: ice-cream-service/built
+      Handler: getIceCreamById.lambdaHandler
+      Runtime: nodejs14.x
+      Events:
+        GetIceCreams:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /icecream/{id}
+            Method: get
+  GetIceCreamsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: ice-cream-service/built
+      Handler: getIceCreams.lambdaHandler
+      Runtime: nodejs14.x
+      Events:
+        GetIceCreams:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /icecream
+            Method: get
+  CreateIceCreamFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: ice-cream-service/built
+      Handler: createIceCream.lambdaHandler
+      Runtime: nodejs14.x
+      Events:
+        GetIceCreams:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /icecream
+            Method: post
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  IceCreamApi:
+    Description: "API Gateway endpoint URL for Prod stage for Ice Cream function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/icecream/"
+  GetIceCreamByIdFunction:
+    Description: "Get Ice Cream Function ARN"
+    Value: !GetAtt GetIceCreamByIdFunction.Arn
+  GetIceCreamByIdFunction:
+    Description: "Implicit IAM Role created for Get Ice Cream function"
+    Value: !GetAtt GetIceCreamByIdFunctionRole.Arn
+  GetIceCreamsFunction:
+    Description: "Get Ice Creams Function ARN"
+    Value: !GetAtt GetIceCreamsFunction.Arn
+  GetIceCreamsFunctionIamRole:
+    Description: "Implicit IAM Role created for Get Ice Creams function"
+    Value: !GetAtt GetIceCreamsFunctionRole.Arn
+  CreateIceCreamFunction:
+    Description: "Create Ice Cream Function ARN"
+    Value: !GetAtt CreateIceCreamFunction.Arn
+  GetIceCreamsFunctionIamRole:
+    Description: "Implicit IAM Role created for Create Ice Cream function"
+    Value: !GetAtt CreateIceCreamFunctionRole.Arn

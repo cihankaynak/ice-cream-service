@@ -1,0 +1,14 @@
+POST https://87cjrsrqn5.execute-api.us-east-2.amazonaws.com/Prod/icecream/ HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Pistachio",
+    "ingredients": [
+      {
+        "name": "Pistachio"
+      },
+      {
+        "name": "Milk"
+      }
+    ]
+}
