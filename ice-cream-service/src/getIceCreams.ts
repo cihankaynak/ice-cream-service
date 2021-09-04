@@ -7,7 +7,7 @@ export const lambdaHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   let service: IceCreamService = new MockIceCreamService();
-  let name = event?.queryStringParameters.name;
+  let name = event.queryStringParameters?.name;
   let iceCreams: IceCream[] = name
     ? service.getIceCreamsByName(name)
     : service.getIceCreams();
